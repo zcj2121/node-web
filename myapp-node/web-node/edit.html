@@ -1,0 +1,88 @@
+﻿<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>修改用户</title>
+    <style>
+        .wap{
+            text-align: center;
+margin-top:20px;
+        }
+.content{
+		margin-top:20px;
+		padding-top:20px;
+	}
+    </style>
+</head>
+
+<body>
+
+    <div class="wap">
+	<div class="content">
+            <p>
+                <label for="name">账号：</label>
+                <input type="text" id="name" name="name">
+            </p>
+            <p>
+                <label for="password">密码：</label>
+                <input type="text" id="password" name="password">
+            </p>
+            <p>
+                <input type="button" id="editnews" value="修改">
+                <input type="button" id="back" value="返回">
+            </p>
+	</div>
+    </div>
+    <script type="text/javascript" src="http://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
+    <script>
+        $(function () {
+            var urlid = window.location.search;
+            var id = (urlid.split('='))[1];
+            $.ajax({
+                    url: 'http://www.fhave.com:3000/users/toUpdate/'+id,
+                    type: 'get',
+                    dataType: "json",
+                    data: {},
+                    success: function (data) {
+                        $("#name").val(data[0].name);
+                        $("#password").val(data[0].password);
+                    },
+                    error: function (data) {
+                      
+                    }
+                });
+            
+            $("#editnews").click(function () {
+                var nameEdit = $("#name").val();
+                var passwordEdit = $("#password").val();
+                if(!nameEdit||!passwordEdit){
+                    alert("请填写账号和密码！")
+                }else{
+                    $.ajax({
+                        url: 'http://www.fhave.com:3000/users/update',
+                        type: 'post',
+                        dataType: "json",
+                        data: {
+                            "id" : id,
+                            "name": nameEdit,
+                            "password": passwordEdit
+                        },
+                        success: function (data) {
+                            alert("修改成功")
+                            window.location.href="index.html";
+                        },
+                        error: function (data) {
+                            alert("修改失败")
+                        }
+                    });
+                };
+            });
+            $("#back").click(function(){
+                window.location.href="index.html";
+            })
+        })
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,68 @@
+﻿<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>查看用户</title>
+    <style>
+        .wap{
+            text-align: center;
+margin-top:20px;
+        }
+        input[type=text]{
+            border:none;
+            background:#fff;
+        }
+.content{
+		margin-top:20px;
+		padding-top:20px;
+	}
+.margin-input{
+	margin-left:-10%;
+}
+    </style>
+</head>
+
+<body>
+
+    <div class="wap">
+	<div class="content">
+            <p>
+                <label for="name">账号：</label>
+                <input type="text" id="name" name="name" disabled="true">
+            </p>
+            <p>
+                <label for="password">密码：</label>
+                <input type="text" id="password" name="password" disabled="true">
+            </p>
+            <p class="margin-input">
+                <input type="button" id="editnews" value="返回">
+            </p>
+	</div>
+    </div>
+    <script type="text/javascript" src="http://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
+    <script>
+        $(function () {
+            var urlid = window.location.search;
+            var id = (urlid.split('='))[1];
+            $.ajax({
+                    url: 'http://www.fhave.com:3000/users/toUpdate/'+id,
+                    type: 'get',
+                    dataType: "json",
+                    data: {},
+                    success: function (data) {
+                        $("#name").val(data[0].name);
+                        $("#password").val(data[0].password);
+                    },
+                    error: function (data) {
+                      
+                    }
+                });
+            $("#editnews").click(function(){
+                window.location.href="index.html";
+            })
+        })
+    </script>
+</body>
+
+</html>
